@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const AlbumSchema = new Schema({
-    title: {
+const CocktailSchema = new Schema({
+    name: {
         type: String,
         required: true,
     },
@@ -11,19 +11,11 @@ const AlbumSchema = new Schema({
         required: true,
         default: false
     },
-    artist: {
-        type: Schema.Types.ObjectId,
-        ref: 'Artist',
-        required: true
-    },
+    ingredients: [{name: String, amount: String}],
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
-    },
-    year:  {
-        type: String,
-        required: true,
     },
     image:  {
         type: String,
@@ -31,6 +23,6 @@ const AlbumSchema = new Schema({
     }
 });
 
-const Album = mongoose.model('Album', AlbumSchema);
+const Cocktail = mongoose.model('Cocktail', CocktailSchema);
 
-module.exports = Album;
+module.exports = Cocktail;
