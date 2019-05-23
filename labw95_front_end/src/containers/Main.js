@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import '../App.css'
-import {getArtists} from "../store/actions/musicActions";
+import {getCocktails} from "../store/actions/musicActions";
 import connect from "react-redux/es/connect/connect";
 import ImageThumbnail from "../components/ImageThumbnail";
 import {Link} from "react-router-dom";
@@ -9,7 +9,7 @@ import {Link} from "react-router-dom";
 class Main extends Component {
 
     componentDidMount() {
-        this.props.getArtists();
+        this.props.getCocktails();
     }
 
     selectChangeHandler = e => {
@@ -34,8 +34,8 @@ class Main extends Component {
             <div className="App">
                 <div className="list_div">
                     <div className="column">
-                        <p className="artist_p">Исполнители</p>
-                        {this.props.artists ? this.props.artists.map(item => {
+                        <p className="artist_p">Cocktails</p>
+                        {this.props.cocktails ? this.props.cocktails.map(item => {
                             return <div className="artist_thumbnail" key={item._id} id={item._id}  >
                                 <ImageThumbnail image={item.image} class="img_thumbnail"/>/>
                                 <p>{item.name}</p>
@@ -51,11 +51,11 @@ class Main extends Component {
 }
 
 const mapStateToProps = state => ({
-    artists: state.music.artists,
+    cocktails: state.cocktail.cocktails,
 });
 
 const mapDispatchToProps = dispatch => ({
-    getArtists: () => dispatch(getArtists()),
+    getCocktails: () => dispatch(getCocktails()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -3,8 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const nanoid = require('nanoid');
 const config = require('../config');
-const Album = require('../models/Album');
-const Track = require('../models/Track');
+const Cocktail = require('../models/Cocktail');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const permit = require('../middleware/permit');
@@ -23,34 +22,32 @@ const upload = multer({storage});
 
 router.get('/', tryAuth, async (req, res) => {
 
+    console.log(req.query.user);
+
     try {
-        let criteria = {artist: req.query.artist};
+        let criteria = {user: req.query.user};
 
         if (!req.user) {
-            criteria = {
-                $and: [
-                    {published: true},
-                    {artist: req.query.artist}
-                ]
-            }
+            criteria = {published: true}
         }
-        if (req.query.artist) {
 
-            let albums = await Album.find(criteria).populate('artist').sort({year: 1});
+        if (req.query.user) {
+
+            let cocktails = await Cocktail.find(criteria);
 
             if (req.user && req.user.role === 'admin') {
-                return res.send(albums);
+                return res.send(cocktails);
             }
             const result = [];
-            albums.map(album => {
-                if (album.published === false && album.user.equals(req.user._id) || album.published === true) result.push(album);
+            cocktails.map(cocktail => {
+                if (cocktail.published === false && cocktail.user.equals(req.user._id) || cocktail.published === true) result.push(cocktail);
             });
 
             if (result) return res.send(result);
             else return res.sendStatus(404);
         } else {
-            const albums = await Album.find().populate('artist');
-            if (albums) return res.send(albums);
+            const cocktails = await Cocktail.find();
+            if (cocktails) return res.send(cocktails);
             else return res.sendStatus(500);
         }
     } catch (e) {
@@ -61,46 +58,46 @@ router.get('/', tryAuth, async (req, res) => {
 router.get('/:id', (req, res) => {
 
     const criteria = {_id: req.params.id};
-    Album.findOne(criteria).populate('artist').then(album => {
-        if (album) res.send(album);
+    Cocktail.findOne(criteria).then(cocktail => {
+        if (cocktail) res.send(cocktail);
         else res.sendStatus(404);
     }).catch(() => res.sendStatus(500));
 });
 
 
 router.post('/', [auth, upload.single('image')], (req, res) => {
-    const albumData = req.body;
+    const cocktailData = req.body;
 
     if (req.file) {
-        albumData.image = req.file.filename;
+        cocktailData.image = req.file.filename;
     }
-    albumData.user = req.user;
-    const album = new Album(albumData);
-    album.save()
+    cocktailData.user = req.user;
+    const cocktail = new Cocktail(cocktailData);
+    cocktail.save()
         .then(() => res.send({message: 'Ok'}))
         .catch(error => res.status(400).send(error));
 });
 
 router.post('/:id/toggle_published', [auth, permit('admin')], async (req, res) => {
-    const album = await Album.findById(req.params.id);
-    if (!album) {
+    const cocktail = await Cocktail.findById(req.params.id);
+    if (!cocktail) {
         return res.sendStatus(404);
     }
-    album.published = !album.published;
-    await album.save();
-    const albums = await Album.find();
-    return res.send(albums);
+    cocktail.published = !cocktail.published;
+    await cocktail.save();
+    const cocktails = await Cocktail.find();
+    return res.send(cocktails);
 });
 
 router.delete('/', [auth, permit('admin')], async (req, res) => {
     try {
         const id = req.query.id;
-        const album = await Album.findById(id);
+        const cocktail = await Cocktail.findById(id);
 
-        if (album) {
-            await album.remove();
-            const albums = await Album.find();
-            return res.status(200).send(albums);
+        if (cocktail) {
+            await cocktail.remove();
+            const coctails = await Cocktail.find();
+            return res.status(200).send(coctails);
         } else {
             return res.status(400).send('Not found !');
         }

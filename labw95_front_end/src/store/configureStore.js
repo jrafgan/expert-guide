@@ -11,7 +11,7 @@ export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
     router: connectRouter(history),
-    music: musicReducer,
+    cocktail: musicReducer,
     users: usersReducer,
 });
 

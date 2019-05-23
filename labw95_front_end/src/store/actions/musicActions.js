@@ -1,7 +1,7 @@
 import axios from '../../axios-api';
 import {push} from "connected-react-router";
 
-export const FETCH_ARTISTS_SUCCESS = 'FETCH_ARTISTS_SUCCESS';
+export const FETCH_COCKTAILS_SUCCESS = 'FETCH_COCKTAILS_SUCCESS';
 export const FETCH_ARTIST_SUCCESS = 'FETCH_ARTIST_SUCCESS';
 export const FETCH_ALBUMS_SUCCESS = 'FETCH_ALBUMS_SUCCESS';
 export const FETCH_ALBUM_SUCCESS = 'FETCH_ALBUM_SUCCESS';
@@ -10,7 +10,7 @@ export const FETCH_TRACKSBYARTIST_SUCCESS = 'FETCH_TRACKSBYARTIST_SUCCESS';
 export const FETCH_TRACKSBYALBUM_SUCCESS = 'FETCH_TRACKSBYALBUM_SUCCESS';
 export const FETCH_FAILURE = 'FETCH_FAILURE';
 
-export const fetchArtistsSuccess = artists => ({type: FETCH_ARTISTS_SUCCESS, artists});
+export const fetchCocktailsSuccess = cocktails => ({type: FETCH_COCKTAILS_SUCCESS, cocktails});
 export const fetchArtistSuccess = artist => ({type: FETCH_ARTIST_SUCCESS, artist});
 export const fetchAlbumsSuccess = albums => ({type: FETCH_ALBUMS_SUCCESS, albums});
 export const fetchAlbumSuccess = album => ({type: FETCH_ALBUM_SUCCESS, album});
@@ -19,18 +19,18 @@ export const fetchTracksByArtistSuccess = tracks => ({type: FETCH_TRACKSBYARTIST
 export const fetchTracksByAlbumSuccess = tracks => ({type: FETCH_TRACKSBYALBUM_SUCCESS, tracks});
 export const fetchFailure = error => ({type: FETCH_FAILURE, error});
 
-export const getArtists = id => {
+export const getCocktails = id => {
     return dispatch => {
-        let path = '/artists';
+        let path = '/cocktails';
 
         if (id) {
-            path += '?id=' + id;
+            path += '?user=' + id;
         }
         return axios.get(path).then(
             response => {
 
                 if (!id) {
-                    dispatch(fetchArtistsSuccess(response.data));
+                    dispatch(fetchCocktailsSuccess(response.data));
                 } else {
                     dispatch(fetchArtistSuccess(response.data));
                 }
@@ -81,7 +81,7 @@ export const getTracksByAlbum = albumId => {
 
 export const createArtist = artistData => {
     return dispatch => {
-        return axios.post('/artists', artistData).then(
+        return axios.post('/cocktails', artistData).then(
             response => {
                 console.log(response.data);
                 dispatch(push('/'))
@@ -142,9 +142,9 @@ export const deleteTrack = id => {
 
 export const deleteArtist = id => {
     return dispatch => {
-        return axios.delete('/artists?id=' + id).then(
+        return axios.delete('/cocktails?id=' + id).then(
             response => {
-                dispatch(fetchArtistsSuccess(response.data));
+                dispatch(fetchCocktailsSuccess(response.data));
             });
     };
 };
@@ -178,9 +178,9 @@ export const toggleAlbumPublish = id => {
 
 export const toggleArtistPublish = id => {
     return dispatch => {
-        return axios.post('/artists/' + id + '/toggle_published').then(
+        return axios.post('/cocktails/' + id + '/toggle_published').then(
             response => {
-                dispatch(fetchArtistsSuccess(response.data));
+                dispatch(fetchCocktailsSuccess(response.data));
             });
     };
 };

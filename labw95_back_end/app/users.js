@@ -63,18 +63,16 @@ router.post('/facebookLogin', async (req, res) => {
     const debugTokenUrl = `https://graph.facebook.com/debug_token?input_token=${inputToken}&access_token=${accessToken}`;
 
     try {
+
         const response = await axios.get(debugTokenUrl);
 
         const responseData = response.data;
-        console.log('this is response data ', responseData);
 
         if (responseData.data.error) {
-            console.log('this is empty data error');
             return res.status(500).send({error: 'Token incorrect'});
         }
 
         if (responseData.data.user_id !== req.body.id) {
-            console.log('this is wrong user');
             return res.status(500).send({error: 'User is wrong'});
         }
 
@@ -86,8 +84,9 @@ router.post('/facebookLogin', async (req, res) => {
                 username: req.body.email || req.body.id,
                 password: nanoid(),
                 facebookId: req.body.id,
+                name: req.body.name,
+                image: req.body.picture.data.url
             });
-            console.log('this is  new user', user);
         }
 
         user.generateToken();

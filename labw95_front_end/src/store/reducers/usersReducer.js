@@ -1,5 +1,4 @@
 import {
-    GET_HISTORY_SUCCESS,
     LOGIN_USER_FAILURE,
     LOGIN_USER_SUCCESS, LOGOUT_USER,
     REGISTER_USER_FAILURE,
@@ -9,8 +8,6 @@ import {
 const initialState = {
     registerError: null,
     loginError: null,
-    history: null,
-    //token: null,
     user: null
 };
 
@@ -34,9 +31,6 @@ const usersReducer = (state = initialState, action) => {
 
         case LOGOUT_USER:
             return {...state, user: null};
-
-        case GET_HISTORY_SUCCESS:
-            return {...state, history: action.history};
 
         default:
             return state;

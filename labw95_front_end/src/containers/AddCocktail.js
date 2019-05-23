@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {createAlbum, getArtists} from "../store/actions/musicActions";
+import {createAlbum, getCocktails} from "../store/actions/musicActions";
 import connect from "react-redux/es/connect/connect";
 import FormElement from "../components/FormElement";
 
-class AddAlbum extends Component {
+class AddCocktail extends Component {
 
     state = {
         title: '',
@@ -14,7 +14,7 @@ class AddAlbum extends Component {
 
 
     componentDidMount() {
-        this.props.getArtists();
+        this.props.getCocktails();
     }
 
     submitFormHandler = e => {
@@ -80,7 +80,7 @@ class AddAlbum extends Component {
                         <label htmlFor="artist">Исполнитель</label>
                         <select id="artist" onChange={this.selectChangeHandler} required>
                             <option value=''>--Выберите исполнителя--</option>
-                            {this.props.artists ? this.props.artists.map(item => {
+                            {this.props.cocktails ? this.props.cocktails.map(item => {
                                 return <option value={item._id} key={item._id}>{item.name}</option>
                             }) : null}
                         </select>
@@ -108,13 +108,13 @@ class AddAlbum extends Component {
 }
 
 const mapStateToProps = state => ({
-    artists: state.music.artists,
-    error: state.music.error,
+    cocktails: state.cocktail.cocktails,
+    error: state.cocktail.error,
 });
 
 const mapDispatchToProps = dispatch => ({
     addAlbum: (albumData) => dispatch(createAlbum(albumData)),
-    getArtists: () => dispatch(getArtists()),
+    getCocktails: () => dispatch(getCocktails()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddAlbum);
+export default connect(mapStateToProps, mapDispatchToProps)(AddCocktail);

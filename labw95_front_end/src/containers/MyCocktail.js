@@ -3,7 +3,7 @@ import {createArtist} from "../store/actions/musicActions";
 import connect from "react-redux/es/connect/connect";
 import FormElement from "../components/FormElement";
 
-class AddArtist extends Component {
+class MyCocktail extends Component {
 
     state = {
         name: '',
@@ -88,11 +88,11 @@ class AddArtist extends Component {
 }
 
 const mapStateToProps = state => ({
-    error: state.music.error,
+    error: state.cocktail.error,
 });
 
 const mapDispatchToProps = dispatch => ({
     addArtist: (artistData) => dispatch(createArtist(artistData)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddArtist);
+export default connect(mapStateToProps, mapDispatchToProps)(MyCocktail);

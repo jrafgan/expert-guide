@@ -1,10 +1,10 @@
 import React, {Component, Fragment} from 'react';
 import ImageThumbnail from "./ImageThumbnail";
 import {Link} from "react-router-dom";
-import {getAlbums, getArtists} from "../store/actions/musicActions";
+import {getAlbums, getCocktails} from "../store/actions/musicActions";
 import connect from "react-redux/es/connect/connect";
 
-class AlbumInfo extends Component {
+class CocktailInfo extends Component {
 
     componentDidMount() {
         const id = this.props.match.params.id;
@@ -43,13 +43,13 @@ class AlbumInfo extends Component {
 }
 
 const mapStateToProps = state => ({
-    artist: state.music.artist,
-    albums: state.music.albums,
+    artist: state.cocktail.artist,
+    albums: state.cocktail.albums,
 });
 
 const mapDispatchToProps = dispatch => ({
-    getArtist: (id) => dispatch(getArtists(id)),
+    getArtist: (id) => dispatch(getCocktails(id)),
     getAlbums: (artistId) => dispatch(getAlbums(artistId)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AlbumInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(CocktailInfo);

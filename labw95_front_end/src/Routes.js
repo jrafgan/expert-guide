@@ -3,9 +3,9 @@ import {Redirect, Route, Switch} from "react-router-dom";
 import Register from "./containers/Register";
 import Login from "./containers/Login";
 import Main from "./containers/Main";
-import AddArtist from "./containers/AddArtist";
-import AddAlbum from "./containers/AddAlbum";
-import AlbumInfo from "./components/AlbumInfo";
+import MyCocktail from "./containers/MyCocktail";
+import AddCocktail from "./containers/AddCocktail";
+import CocktailInfo from "./components/CocktailInfo";
 import TrackInfo from "./components/TrackInfo";
 import TrackHistory from "./containers/TrackHistory";
 import AddTrack from "./containers/AddTrack";
@@ -21,17 +21,13 @@ const Routes = ({user}) => {
             <Switch>
                 <Route path="/" exact component={Main} />
                 <ProtectedRoute
-                    isAllowed={user && user.role === 'admin'}
-                    path="/admin_office/"
+                    isAllowed={user}
+                    path="/add_cocktail"
                     exact
-                    component={AdminBackOffice}
+                    component={AddCocktail}
                 />
-                <Route path="/add_artist" exact component={AddArtist} />
-                <Route path="/add_album" exact component={AddAlbum} />
-                <Route path="/add_track" exact component={AddTrack} />
-                <Route path="/track_history/" exact component={TrackHistory} />
-                <Route path="/album_info/:id" exact component={AlbumInfo} />
-                <Route path="/track_info/:id" exact component={TrackInfo} />
+                <Route path="/my_cocktail" exact component={MyCocktail} />
+                <Route path="/cocktail_info/:id" exact component={CocktailInfo} />
                 <Route path="/register" exact component={Register} />
                 <Route path="/login" exact component={Login} />
             </Switch>

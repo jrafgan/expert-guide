@@ -11,13 +11,19 @@ const CocktailSchema = new Schema({
         required: true,
         default: false
     },
-    ingredients: [{name: String, amount: String}],
+    ingredients: [
+        {name: String, amount: String}
+    ],
+    recipe: {
+        type: String,
+        required: true,
+    },
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
-    image:  {
+    image: {
         type: String,
         required: true,
     }

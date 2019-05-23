@@ -36,7 +36,15 @@ const UserSchema = new Schema({
   },
   facebookId: {
     type: String
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  image: {
+    type: String
   }
+
 });
 
 UserSchema.methods.checkPassword = function(password) {

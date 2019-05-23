@@ -7,10 +7,9 @@ const Layout = ({user, logout}) => {
 
     return (
         <div className="main_nav">
-            <div><NavLink to="/" exact>Главная</NavLink></div>
+            <div><NavLink to="/" exact>Coctail builder</NavLink></div>
             {user ?
                 <UserMenu user={user} logout={logout}/> : <AnonymousMenu/>}
-            <h2 className="h2">First.FM</h2>
         </div>
     )
 };

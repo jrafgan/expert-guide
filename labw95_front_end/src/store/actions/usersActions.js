@@ -16,8 +16,6 @@ const registerUserSuccess = user => ({type: REGISTER_USER_SUCCESS, user});
 const registerUserFailure = error => ({type: REGISTER_USER_FAILURE, error});
 const loginUserSuccess = user => ({type: LOGIN_USER_SUCCESS, user});
 const loginUserFailure = error => ({type: LOGIN_USER_FAILURE, error});
-const getHistorySuccess = history => ({type: GET_HISTORY_SUCCESS, history});
-
 export const facebookLogin = userData => {
     return dispatch =>{
         console.log('this is userData to Api ', userData);
@@ -88,38 +86,4 @@ export const loginUser = userData => {
             }
         )
     }
-};
-
-export const saveTrack = trackId => {
-    console.log('this is trackId', trackId);
-    return dispatch => {
-        return axios.post('/tracks_history', {trackId: trackId}).then(
-            response => {
-                console.log(response.data);
-            },
-            error => {
-                if (error.response) {
-                    console.log(error.response.data)
-                } else {
-                    dispatch(loginUserFailure({global: "No network connection "}))
-                }
-            });
-    };
-};
-
-export const getHistory = () => {
-    return (dispatch, getState) => {
-        const state = getState();
-        return axios.get('/tracks_history', {headers: {"Authorization": state.users.token}}).then(
-            response => {
-                dispatch(getHistorySuccess(response.data));
-            },
-            error => {
-                if (error.response) {
-                    dispatch(push('/'));
-                } else {
-                    dispatch(loginUserFailure({global: "No network connection "}))
-                }
-            });
-    };
 };
