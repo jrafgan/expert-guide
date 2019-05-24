@@ -38,15 +38,6 @@ class CocktailInfo extends Component {
                             </div>
                         </div> : null}
                     </div>
-                    {this.props.albums ? this.props.albums.map(item => {
-                        return <div className="cocktail_thumbnail" key={item._id}>
-                            <ImageThumbnail image={item.image} class="img_thumbnail"/>/>
-                            <p className="not_published">{item.published ? '' : 'not published'}</p>
-                            <p>{item.name}</p>
-                            <p>{item.recipe}</p>
-                            <Link to={"/track_info/" + item._id}>Трэки</Link>
-                        </div>
-                    }) : null}
                 </div>
             </div>
         );
