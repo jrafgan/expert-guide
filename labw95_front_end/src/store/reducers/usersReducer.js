@@ -24,7 +24,6 @@ const usersReducer = (state = initialState, action) => {
             });
 
         case LOGIN_USER_SUCCESS:
-            console.log(action.user);
             return {...state, user: action.user, loginError: null};
 
         case LOGIN_USER_FAILURE:

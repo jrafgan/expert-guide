@@ -12,6 +12,12 @@ class Main extends Component {
         this.props.getCocktails();
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.user !== prevProps.user) {
+            this.props.getCocktails();
+        }
+    }
+
     deleteCocktail = e => {
         this.props.deleteCocktail(e.target.id);
     };
@@ -32,7 +38,7 @@ class Main extends Component {
                                 <ImageThumbnail image={item.image} class="img_thumbnail"/>
                                 <Link to={"/cocktail_info/" + item._id}>{item.name}</Link>
                                 <div>
-                                {this.props.user.role === 'admin' ? <Fragment>{!item.published ? <button id={item._id} className="publish_btn"
+                                {this.props.user && this.props.user.role === 'admin' ? <Fragment>{!item.published ? <button id={item._id} className="publish_btn"
                                                                                                          onClick={this.togglePublishCocktail}>Publish</button> : <button id={item._id} className="unpublish_btn"
                                                                                                                                                                          onClick={this.togglePublishCocktail}>Unpublish</button>}
                                     <button id={item._id} className="delete_btn"

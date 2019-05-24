@@ -13,7 +13,7 @@ const UserMenu = ({user, logout}) => {
             {user.username === 'admin' ? <NavLink to="/admin_office/" exact>Админ офис</NavLink> : null}
             <NavLink to="/my_cocktail" exact>My cocktails</NavLink>
             <NavLink to="/add_cocktail" exact>Add cocktail</NavLink>
-            <NavLink onClick={logout} to="/" exact>Выйти</NavLink>
+            <NavLink onClick={logout} to="/" exact>Logout</NavLink>
         </div>)
 };
 

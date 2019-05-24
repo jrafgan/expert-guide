@@ -12,17 +12,16 @@ export const LOGOUT_USER = 'LOGOUT_USER';
 
 export const GET_HISTORY_SUCCESS = 'GET_HISTORY_SUCCESS';
 
-const registerUserSuccess = user => ({type: REGISTER_USER_SUCCESS, user});
 const registerUserFailure = error => ({type: REGISTER_USER_FAILURE, error});
 const loginUserSuccess = user => ({type: LOGIN_USER_SUCCESS, user});
 const loginUserFailure = error => ({type: LOGIN_USER_FAILURE, error});
+
 export const facebookLogin = userData => {
     return dispatch =>{
-        console.log('this is userData to Api ', userData);
         return axios.post('/users/facebookLogin', userData).then(
             response=>{
                 dispatch(loginUserSuccess(response.data.user));
-                console.log('thi is response from API ', response.data);
+                NotificationManager.success('Logged in successfully !');
                 dispatch(push('/'));
             },
             ()=>{dispatch(loginUserFailure('Login via Facebook failed'))}
@@ -46,44 +45,6 @@ export const logoutUser = () => {
                 }
             }
 
-        )
-    }
-};
-
-export const registerUser = userData => {
-    return dispatch => {
-        return axios.post('/users', userData).then(response => {
-                dispatch(registerUserSuccess(response.data.user));
-                console.log(response.data.user);
-                NotificationManager.success('Registered successfully !');
-                dispatch(push('/'));
-            },
-            error => {
-                if (error.response) {
-                    dispatch(registerUserFailure(error.response.data));
-                    NotificationManager.error('Could not register !');
-                } else {
-                    dispatch(registerUserFailure({global: "No network connection "}))
-                }
-            }
-        )
-    }
-};
-
-export const loginUser = userData => {
-    return dispatch => {
-        return axios.post('/users/sessions', userData).then(response => {
-                dispatch(loginUserSuccess(response.data.user));
-                NotificationManager.success('Logged in successfully !');
-                dispatch(push('/'));
-            },
-            error => {
-                if (error.response) {
-                    dispatch(loginUserFailure(error.response.data));
-                } else {
-                    dispatch(loginUserFailure({global: "No network connection "}))
-                }
-            }
         )
     }
 };

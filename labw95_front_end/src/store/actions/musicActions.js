@@ -28,7 +28,6 @@ export const getCocktails = id => {
         }
         return axios.get(path).then(
             response => {
-                console.log('this is cocktails', response.data);
                 dispatch(fetchCocktailsSuccess(response.data));
             });
     }

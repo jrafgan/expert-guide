@@ -21,42 +21,24 @@ const storage = multer.diskStorage({
 const upload = multer({storage});
 
 router.get('/', tryAuth, async (req, res) => {
-
-    console.log(req.user);
-
     try {
         let criteria = {user: req.query.user};
-
-        if (!req.user) {
-            criteria = {published: true}
-        }
+        let cocktails;
 
         if (req.query.user) {
+            cocktails = await Cocktail.find(criteria);
 
-            let cocktails = await Cocktail.find(criteria);
-
-            if (req.user && req.user.role === 'admin') {
-                return res.send(cocktails);
-            }
-            const result = [];
-            cocktails.map(cocktail => {
-                if (cocktail.published === false && cocktail.user.equals(req.user._id) || cocktail.published === true) result.push(cocktail);
-            });
-
-            if (result) return res.send(result);
+            if (cocktails) return res.send(cocktails);
             else return res.sendStatus(404);
         } else {
-            const result = [];
-            const cocktails = await Cocktail.find();
 
-            if (req.user.role === 'user') {
-                cocktails.map(cocktail => {
-                    if (cocktail.published === false && cocktail.user.equals(req.user._id) || cocktail.published === true) result.push(cocktail);
-                });
-                if (result) return res.send(result);
-                else return res.sendStatus(404);
+            if (!req.user) {
+                cocktails = await Cocktail.find({published: true});
+            } else if (req.user.role === 'admin') {
+                cocktails = await Cocktail.find();
+            } else {
+                cocktails = await Cocktail.find({published: true});
             }
-
             if (cocktails) return res.send(cocktails);
             else return res.sendStatus(500);
         }
@@ -79,13 +61,10 @@ router.post('/', [auth, upload.single('image')], (req, res) => {
     let cocktailData = req.body;
     try {
         cocktailData.ingredients = JSON.parse(req.body.ingredients);
-        console.log('this is cocktailData ', cocktailData);
     } catch (e) {
         console.log('this is error : ', e);
 
     }
-    console.log('this is cocktailData ', cocktailData);
-    console.log('this req user for post', req.user);
     if (req.file) {
         cocktailData.image = req.file.filename;
     }
@@ -105,7 +84,7 @@ router.post('/:id/toggle_published', [auth, permit('admin')], async (req, res) =
     cocktail.published = !cocktail.published;
     await cocktail.save();
 
-    const cocktails = await Cocktail.find();
+    const cocktails = await Cocktail.find({user: req.user._id});
     return res.send(cocktails);
 });
 
