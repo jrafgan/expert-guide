@@ -4,16 +4,16 @@ import {push} from "connected-react-router";
 export const FETCH_COCKTAILS_SUCCESS = 'FETCH_COCKTAILS_SUCCESS';
 export const FETCH_ARTIST_SUCCESS = 'FETCH_ARTIST_SUCCESS';
 export const FETCH_ALBUMS_SUCCESS = 'FETCH_ALBUMS_SUCCESS';
-export const FETCH_ALBUM_SUCCESS = 'FETCH_ALBUM_SUCCESS';
+export const FETCH_COCKTAIL_SUCCESS = 'FETCH_COCKTAIL_SUCCESS';
 export const FETCH_TRACKS_SUCCESS = 'FETCH_TRACKS_SUCCESS';
 export const FETCH_TRACKSBYARTIST_SUCCESS = 'FETCH_TRACKSBYARTIST_SUCCESS';
 export const FETCH_TRACKSBYALBUM_SUCCESS = 'FETCH_TRACKSBYALBUM_SUCCESS';
 export const FETCH_FAILURE = 'FETCH_FAILURE';
 
 export const fetchCocktailsSuccess = cocktails => ({type: FETCH_COCKTAILS_SUCCESS, cocktails});
-export const fetchArtistSuccess = artist => ({type: FETCH_ARTIST_SUCCESS, artist});
+export const fetchArtistSuccess = cocktail => ({type: FETCH_ARTIST_SUCCESS, artist: cocktail});
 export const fetchAlbumsSuccess = albums => ({type: FETCH_ALBUMS_SUCCESS, albums});
-export const fetchAlbumSuccess = album => ({type: FETCH_ALBUM_SUCCESS, album});
+export const fetchCocktailSuccess = cocktail => ({type: FETCH_COCKTAIL_SUCCESS, cocktail});
 export const fetchTracksSuccess = tracks => ({type: FETCH_TRACKS_SUCCESS, tracks});
 export const fetchTracksByArtistSuccess = tracks => ({type: FETCH_TRACKSBYARTIST_SUCCESS, tracks});
 export const fetchTracksByAlbumSuccess = tracks => ({type: FETCH_TRACKSBYALBUM_SUCCESS, tracks});
@@ -28,21 +28,17 @@ export const getCocktails = id => {
         }
         return axios.get(path).then(
             response => {
-
-                if (!id) {
-                    dispatch(fetchCocktailsSuccess(response.data));
-                } else {
-                    dispatch(fetchArtistSuccess(response.data));
-                }
+                console.log('this is cocktails', response.data);
+                dispatch(fetchCocktailsSuccess(response.data));
             });
-    };
+    }
 };
 export const getAlbums = artistId => {
     return dispatch => {
         let path = '/albums';
 
         if (artistId) {
-            path += '?artist=' + artistId;
+            path += '?cocktail=' + artistId;
         }
         return axios.get(path).then(
             response => {
@@ -51,12 +47,12 @@ export const getAlbums = artistId => {
     };
 };
 
-export const getAlbum = id => {
+export const getCocktail = id => {
     return dispatch => {
-        return axios.get('/albums/' + id).then(
+        return axios.get('/cocktails/' + id).then(
             response => {
-                dispatch(fetchAlbumSuccess(response.data));
-
+                dispatch(fetchCocktailSuccess(response.data));
+                console.log(response.data);
             });
     };
 };
@@ -71,7 +67,7 @@ export const getTracks = () => {
 };
 export const getTracksByAlbum = albumId => {
     return dispatch => {
-        return axios.get('/tracks?album=' + albumId).then(
+        return axios.get('/tracks?cocktail=' + albumId).then(
             response => {
                 dispatch(fetchTracksSuccess(response.data));
                 console.log(response.data);
@@ -96,10 +92,9 @@ export const createArtist = artistData => {
     };
 };
 
-export const createAlbum = albumData => {
+export const createCocktail = cocktailData => {
     return dispatch => {
-
-        return axios.post('/albums', albumData).then(
+        return axios.post('/cocktails', cocktailData).then(
             response => {
                 dispatch(push('/'));
                 console.log(response.data);
@@ -114,33 +109,7 @@ export const createAlbum = albumData => {
     };
 };
 
-export const createTrack = albumData => {
-    return dispatch => {
-        return axios.post('/tracks', albumData).then(
-            response => {
-                console.log(response.data);
-                dispatch(push('/'));
-            },
-            error => {
-                if (error.response) {
-                    dispatch(fetchFailure(error.response.data));
-                } else {
-                    dispatch(fetchFailure({global: "No network connection "}))
-                }
-            });
-    };
-};
-
-export const deleteTrack = id => {
-    return dispatch => {
-        return axios.delete('/tracks?id=' + id).then(
-            response => {
-                dispatch(fetchTracksSuccess(response.data));
-            });
-    };
-};
-
-export const deleteArtist = id => {
+export const deleteCocktail = id => {
     return dispatch => {
         return axios.delete('/cocktails?id=' + id).then(
             response => {
@@ -149,34 +118,7 @@ export const deleteArtist = id => {
     };
 };
 
-export const deleteAlbum = id => {
-    return dispatch => {
-        return axios.delete('/albums?id=' + id).then(
-            response => {
-                dispatch(fetchAlbumsSuccess(response.data));
-            });
-    };
-};
-
-export const toggleTrackPublish = id => {
-    return dispatch => {
-        return axios.post('/tracks/' + id + '/toggle_published').then(
-            response => {
-                dispatch(fetchTracksSuccess(response.data));
-            });
-    };
-};
-
-export const toggleAlbumPublish = id => {
-    return dispatch => {
-        return axios.post('/albums/' + id + '/toggle_published').then(
-            response => {
-                dispatch(fetchAlbumsSuccess(response.data));
-            });
-    };
-};
-
-export const toggleArtistPublish = id => {
+export const toggleCocktailPublish = id => {
     return dispatch => {
         return axios.post('/cocktails/' + id + '/toggle_published').then(
             response => {

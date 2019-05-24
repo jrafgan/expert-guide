@@ -22,7 +22,7 @@ const upload = multer({storage});
 
 router.get('/', tryAuth, async (req, res) => {
 
-    console.log(req.query.user);
+    console.log(req.user);
 
     try {
         let criteria = {user: req.query.user};
@@ -46,7 +46,17 @@ router.get('/', tryAuth, async (req, res) => {
             if (result) return res.send(result);
             else return res.sendStatus(404);
         } else {
+            const result = [];
             const cocktails = await Cocktail.find();
+
+            if (req.user.role === 'user') {
+                cocktails.map(cocktail => {
+                    if (cocktail.published === false && cocktail.user.equals(req.user._id) || cocktail.published === true) result.push(cocktail);
+                });
+                if (result) return res.send(result);
+                else return res.sendStatus(404);
+            }
+
             if (cocktails) return res.send(cocktails);
             else return res.sendStatus(500);
         }
@@ -66,12 +76,21 @@ router.get('/:id', (req, res) => {
 
 
 router.post('/', [auth, upload.single('image')], (req, res) => {
-    const cocktailData = req.body;
+    let cocktailData = req.body;
+    try {
+        cocktailData.ingredients = JSON.parse(req.body.ingredients);
+        console.log('this is cocktailData ', cocktailData);
+    } catch (e) {
+        console.log('this is error : ', e);
 
+    }
+    console.log('this is cocktailData ', cocktailData);
+    console.log('this req user for post', req.user);
     if (req.file) {
         cocktailData.image = req.file.filename;
     }
-    cocktailData.user = req.user;
+    cocktailData.user = req.user._id;
+
     const cocktail = new Cocktail(cocktailData);
     cocktail.save()
         .then(() => res.send({message: 'Ok'}))
@@ -85,6 +104,7 @@ router.post('/:id/toggle_published', [auth, permit('admin')], async (req, res) =
     }
     cocktail.published = !cocktail.published;
     await cocktail.save();
+
     const cocktails = await Cocktail.find();
     return res.send(cocktails);
 });

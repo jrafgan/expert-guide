@@ -1,15 +1,14 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import ImageThumbnail from "./ImageThumbnail";
 import {Link} from "react-router-dom";
-import {getAlbums, getCocktails} from "../store/actions/musicActions";
+import {getCocktail} from "../store/actions/musicActions";
 import connect from "react-redux/es/connect/connect";
 
 class CocktailInfo extends Component {
 
     componentDidMount() {
         const id = this.props.match.params.id;
-        this.props.getArtist(id);
-        this.props.getAlbums(id);
+        this.props.getCocktail(id);
     }
 
     render() {
@@ -17,22 +16,34 @@ class CocktailInfo extends Component {
             <div>
                 <div className="column">
 
-                    <p className="album_p">Альбомы</p>
+                    <p className="album_p">Cocktail</p>
                     <div className="one_artist">
-                        {this.props.artist ? <div className="one_artist_thumbnail" key={this.props.artist._id}>
+                        {this.props.cocktail ? <div className="one_cocktail_thumbnail" key={this.props.cocktail._id}>
                             <div>
-                                <ImageThumbnail image={this.props.artist.image} class="small_img_thumbnail"/>
-                                <p>{this.props.artist.name}</p>
+                                <ImageThumbnail image={this.props.cocktail.image} class="img_thumbnail"/>
+                                <p>{this.props.cocktail.name}</p>
                             </div>
-                            <p>{this.props.artist.description}</p>
+                            <div className="cocktail_recipe">
+                                <p>Recipe:</p>
+                                <p>{this.props.cocktail.recipe}</p>
+                            </div>
+                            <p/>
+                            <div className="cocktail_ingredients_text">
+                                {this.props.cocktail.ingredients.map(ingredient => {
+                                    return <p>
+                                        <span>{ingredient.name} : </span>
+                                        <span><b>{ingredient.amount}</b></span>
+                                    </p>
+                                })}
+                            </div>
                         </div> : null}
                     </div>
                     {this.props.albums ? this.props.albums.map(item => {
-                        return <div className="artist_thumbnail" key={item._id}>
+                        return <div className="cocktail_thumbnail" key={item._id}>
                             <ImageThumbnail image={item.image} class="img_thumbnail"/>/>
                             <p className="not_published">{item.published ? '' : 'not published'}</p>
-                            <p>{item.title}</p>
-                            <p>{item.year}-год</p>
+                            <p>{item.name}</p>
+                            <p>{item.recipe}</p>
                             <Link to={"/track_info/" + item._id}>Трэки</Link>
                         </div>
                     }) : null}
@@ -43,13 +54,11 @@ class CocktailInfo extends Component {
 }
 
 const mapStateToProps = state => ({
-    artist: state.cocktail.artist,
-    albums: state.cocktail.albums,
+    cocktail: state.cocktail.cocktail,
 });
 
 const mapDispatchToProps = dispatch => ({
-    getArtist: (id) => dispatch(getCocktails(id)),
-    getAlbums: (artistId) => dispatch(getAlbums(artistId)),
+    getCocktail: (id) => dispatch(getCocktail(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CocktailInfo);

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {registerUser} from "../store/actions/usersActions";
 import {connect} from 'react-redux';
 import FormElement from "../components/FormElement";
-import FacebookLogin from "../components/FacebookLogin";
 
 class Register extends Component {
     state = {

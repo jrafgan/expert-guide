@@ -28,7 +28,7 @@ body {
     text-align: center;
 }
 
-.artist_p,
+.cocktail_p,
 .album_p {
     grid-column: 1 / 4;
     justify-self: center;
@@ -145,19 +145,28 @@ body {
 
 .delete_btn {
     background: red;
+    height: 20px;
 }
 
 .publish_btn {
     background: limegreen;
+    height: 20px;
 }
 
-.artist_thumbnail {
+.unpublish_btn {
+    background: orange;
+    height: 20px;
+}
+
+.cocktail_thumbnail {
+    display: grid;
+    grid-template-columns: 210px;
     margin-bottom: 15px;
 }
 
-.one_artist_thumbnail {
+.one_cocktail_thumbnail {
     display: grid;
-    grid-template-columns: 150px auto;
+    grid-template-columns: 200px auto;
 }
 
 .not_published {
@@ -172,7 +181,12 @@ body {
     text-decoration: underline;
 }
 
-.artist_description {
+.cocktail_description {
     height: 120px;
     overflow: auto;
+}
+
+.cocktail_recipe,
+.cocktail_ingredients_text {
+    text-align: left;
 }

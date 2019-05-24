@@ -17,28 +17,31 @@ const run = async () => {
 
     const [user2, user1, admin] = await User.create(
         {
-            username: 'johnbone',
-            name: 'John',
-            password: '123',
+            username: 'stgqseykpp_1558629434@tfbnw.net',
+            facebookId: '109980593577521',
+            name: 'Mark Alcfifgdcadhf McDonaldman',
+            password: '111aaa',
             role: 'user',
             token: nanoid(),
-            image: 'john.jpeg'
+            image: 'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=109980593577521&height=50&width=50&ext=1561277553&hash=AeQt7Ybkjlpi2F6W'
         },
         {
-            username: 'alancalan',
-            name: 'Alan',
-            password: '123',
+            username: 'uprihrlnyi_1558631968@tfbnw.net',
+            facebookId: '100938861158493',
+            name: 'Dorothy Alcgbgacgbfgc Carrierowitz',
+            password: '111aaa',
             role: 'user',
             token: nanoid(),
-            image: 'alan.jpeg'
+            image: 'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=100938861158493&height=50&width=50&ext=1561277235&hash=AeQeTINEFa7naa40'
         },
         {
-            username: 'admin',
-            name: 'Abraham',
-            password: '123',
+            username: "tflvywzwyb_1558629443@tfbnw.net",
+            facebookId: '110738913500997',
+            name: 'Sophia Alcfidffgbfac Putnamson',
+            password: '111aaa',
             role: 'admin',
             token: nanoid(),
-            image: 'admin.jpeg'
+            image: 'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=110738913500997&height=50&width=50&ext=1561276502&hash=AeS3ghBe7qSFIYCG'
         }
     );
 
@@ -94,7 +97,7 @@ const run = async () => {
                 {name: "rum Bacardi", amount: "1 cup"},
                 {name: "club soda", amount: "1 liter"},
             ],
-            image: "mimosa.jpg",
+            image: "mojito.jpg",
             user: admin._id
         },
         {
