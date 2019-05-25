@@ -22,14 +22,14 @@ body {
     grid-column-gap: 10px;
 }
 
-.one_artist {
+.one_cocktail {
     display: grid;
     grid-column: 1 / 4;
     text-align: center;
 }
 
 .cocktail_p,
-.album_p {
+.cocktail_p {
     grid-column: 1 / 4;
     justify-self: center;
     margin: 10px;
@@ -50,7 +50,7 @@ body {
     height: 100px;
 }
 
-.add_album {
+.add_cocktail {
     display: grid;
     justify-self: right;
 }
@@ -175,7 +175,7 @@ body {
 }
 
 .facebook_link,
-.album_p {
+.cocktail_p {
     color: rgb(0, 0, 238);
     cursor: pointer;
     text-decoration: underline;

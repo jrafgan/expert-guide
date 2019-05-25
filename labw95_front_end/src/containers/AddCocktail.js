@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {createCocktail} from "../store/actions/musicActions";
+import {createCocktail} from "../store/actions/cocktailActions";
 import connect from "react-redux/es/connect/connect";
 import FormElement from "../components/FormElement";
 import nanoid from "nanoid"

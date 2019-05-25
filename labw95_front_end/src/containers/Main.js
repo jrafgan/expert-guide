@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import '../App.css'
-import {deleteCocktail, getCocktails, toggleCocktailPublish} from "../store/actions/musicActions";
+import {deleteCocktail, getCocktails, toggleCocktailPublish} from "../store/actions/cocktailActions";
 import connect from "react-redux/es/connect/connect";
 import ImageThumbnail from "../components/ImageThumbnail";
 import {Link} from "react-router-dom";
